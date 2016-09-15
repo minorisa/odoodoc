@@ -215,7 +215,9 @@ man_pages = [
      [u'Minorisa'], 1)
 ]
 
-odoo_server = ''
-odoo_db = ''
-odoo_user = ''
-odoo_pwd = ''
+#odoodoc_fieldclass = 'system-message'
+
+odoo_server = 'https://odoo8-demo.minorisa.net'
+odoo_db = 'demo8public'
+odoo_user = 'demo1'
+odoo_pwd = 'demo1'

@@ -12,7 +12,6 @@
 # serve to show the default.
 
 import sys, os
-import sphinxcontrib.odoodoc
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -26,7 +25,9 @@ import sphinxcontrib.odoodoc
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = []
+extensions = [
+    'sphinxcontrib.odoodoc',
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -215,3 +216,8 @@ man_pages = [
     ('index', 'odoodoc', u'OdooDoc Documentation',
      [u'Minorisa'], 1)
 ]
+
+odoo_server = 'https://odoo8-demo.minorisa.net'
+odoo_db = 'demo8public'
+odoo_user = 'demo1'
+odoo_pwd = 'demo1'

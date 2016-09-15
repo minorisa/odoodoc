@@ -23,24 +23,16 @@ _client = None
 def get_field_data(model_name, field_name, show_help, odoo_lang):
     global _client
     if show_help:
-        type = 'help'
+        key = 'help'
     else:
-        type = 'field'
-    otrans = _client.model('ir.translation').browse([
-        ('name', '=', (model_name + ',' + field_name)),
-        ('type', '=', type),
-        ('lang', '=', odoo_lang)
-    ], limit=1)
-    xname = None
-    if otrans and otrans[0]:
-        xname = otrans[0].value
-    else:
-        xdict = _client.model(model_name).field(field_name)
-        if show_help:
-            xname = xdict.get('help', None)
-        else:
-            xname = xdict.get('string', None)
-    return xname
+        key = 'string'
+    ctx = {'lang': odoo_lang}
+    xname = _client.execute(
+        model_name,
+        'fields_get',
+        field_name,
+        context=ctx)[field_name][key]
+    return xname or None
 
 
 class FieldDirective(Directive):
@@ -75,18 +67,18 @@ class FieldDirective(Directive):
 
 
 def get_menu_data(module_name, menu_name, show_name_only, odoo_lang):
-    xres_id = _client.model('ir.model.data').read([
+    o = _client.IrModelData.read([
         ('module', '=', module_name),
         ('name', '=', menu_name)
     ], limit=1, fields=['res_id'])
-    xid = xres_id and xres_id[0] or False
-    if not xid:
+    res_id = o and o[0] or False
+    if not res_id:
         return None
-    xmenu = _client.model('ir.ui.menu').browse(xid['res_id'], context={'lang': odoo_lang})
+    menu = _client.IrUiMenu.browse(res_id['res_id'], context={'lang': odoo_lang})
     if show_name_only:
-        text = xmenu.name or None
+        text = menu.name or None
     else:
-        text = xmenu.complete_name or None
+        text = menu.complete_name or None
     return text
 
 
@@ -172,7 +164,11 @@ class References(Transform):
                                                  config.odoo_lang)
                 elif kind == 'menu':
                     module_name, menu_name = content.split('/')
-                    replacement = get_menu_data(module_name, menu_name, False,
+                    if options == 'nameonly':
+                        show_name_only = True
+                    else:
+                        show_name_only = False
+                    replacement = get_menu_data(module_name, menu_name, show_name_only,
                                                 config.odoo_lang)
                 else:
                     replacement = refdata
@@ -218,6 +214,6 @@ def setup(app):
     app.add_directive('field', FieldDirective)
     app.add_directive('menu', MenuDirective)
 
-    app.add_role('icon', icon_role)
+    app.add_role('faicon', icon_role)
 
     app.connect(b'builder-inited', init_transformer)

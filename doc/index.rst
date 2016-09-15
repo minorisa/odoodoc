@@ -36,7 +36,7 @@ You can refer to any field with the following directive:
 
    .. field:: model/field
 
-which will print the given field name inside an _span_ with the class
+which will print the given field name inside an *span* with the class
 *odoodocfield*. You can change this default class with the configuration option
 *odoodoc_fieldclass*.
 
@@ -69,7 +69,7 @@ The following code shows the menu name:
 
 which will output *Administration / Draft Entries*.
 
-Like field directive, it will output the text inside an _span_ tag with the
+Like field directive, it will output the text inside an *span* tag with the
 class *odoodocmenu*. This default class could be changed with the configuration
 option *odoodoc_menuclass*. And if you want to add another classes to an specific
 entry you could use the ``:class: CLASSLIST`` option.
@@ -88,9 +88,32 @@ uses the directive it has all options and the same behaviour than directives:
    .. |partner_street| field:: res.partner/street
 
 or one provided by odoodoc, which is shorter (but it doesn't put the text inside
-and _span_ tag and it doesn't support any option):
+and *span* tag and it doesn't support any option):
 
 ::
 
    This is a reference to a field @field:res.partner/street@.
+
+In this shorter syntax, options are added at the end, separated by colons. For example::
+
+   @field:res.partner/street:help@
+   @menu:account/periodical_processing_journal_entries_validation:nameonly@
+
+
+FA Icon
+~~~~~~~
+
+You can insert any FontAwesome Icon using the **faicon** role.
+
+::
+
+   :faicon:`envelope`
+
+This role simply inserts the following HTML (only for html writers)
+
+.. code:: html
+
+   <i class="fa fa-{}" aria-hidden="true"></i>
+
+where {} is the content of the role.
 
