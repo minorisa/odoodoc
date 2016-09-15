@@ -65,13 +65,13 @@ The following code shows the menu name:
 
 ::
 
-   .. menu:: account.periodical_processing_journal_entries_validation
+   .. menu:: account/periodical_processing_journal_entries_validation
 
 which will output *Administration / Draft Entries*.
 
 Like field directive, it will output the text inside an _span_ tag with the
-class *odoodocref*. This default class could be changed with the configuration
-option *odoodoc_refclass*. And if you want to add another classes to an specific
+class *odoodocmenu*. This default class could be changed with the configuration
+option *odoodoc_menuclass*. And if you want to add another classes to an specific
 entry you could use the ``:class: CLASSLIST`` option.
 
 

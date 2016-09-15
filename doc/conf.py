@@ -12,7 +12,7 @@
 # serve to show the default.
 
 import sys, os
-import sphinxcontrib.trydoc
+import sphinxcontrib.odoodoc
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -212,6 +212,6 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'trydoc', u'OdooDoc Documentation',
+    ('index', 'odoodoc', u'OdooDoc Documentation',
      [u'Minorisa'], 1)
 ]
