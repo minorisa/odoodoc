@@ -215,7 +215,8 @@ man_pages = [
      [u'Minorisa'], 1)
 ]
 
-#odoodoc_fieldclass = 'system-message'
+odoodoc_fieldclass = 'system-message-one'
+odoodoc_fieldlistclass = 'list-class-one'
 
 odoo_server = 'https://odoo8-demo.minorisa.net'
 odoo_db = 'demo8public'

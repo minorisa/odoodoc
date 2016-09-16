@@ -115,6 +115,51 @@ class MenuDirective(Directive):
         return [nodes.literal(text=text, classes=classes)]
 
 
+class OdooModelFieldList(Directive):
+    has_content = True
+    required_arguments = 1
+    optional_arguments = 0
+    final_argument_whitespace = False
+    option_spec = {
+        'fields': directives.unchanged,
+        'class': directives.class_option
+    }
+    default_fields = []
+    global _client
+
+    def run(self):
+        config = self.state.document.settings.env.config
+        model_name = self.arguments[0]
+        optfields = self.options.get('fields')
+        if not optfields:
+            fields = _client.model(model_name).keys()
+        else:
+            fields = optfields.split(' ')
+        l = [x for x in fields if
+             x not in ['create_uid', 'create_date', 'write_uid', 'write_date']]
+        res = _client.execute(model_name, 'fields_get', l,
+                              context={'lang': config.odoo_lang})
+        classes = [config.odoodoc_fieldlistclass]
+        if 'class' in self.options:
+            classes.extend(self.options['class'])
+        return [nodes.field_list('', *(
+            nodes.field('',
+                nodes.field_name(text=v['string'] or k),
+                nodes.field_body(
+                    '',
+                    # keep help formatting around (e.g. newlines for lists)
+                    nodes.line_block('', *(
+                        nodes.line(text=line)
+                        for line in v['help'].split('\n')
+                    ))
+                )
+            )
+            for k, v in res.iteritems()
+            # only display if there's a help text
+            if v.get('help')
+        ), classes=classes)]
+
+
 class References(Transform):
     """
     Parse and transform menu and field references in a document.
@@ -210,9 +255,11 @@ def setup(app):
     app.add_config_value('odoodoc_pattern', re.compile(r'@(.|[^@]+)@'), 'env')
     app.add_config_value('odoodoc_menuclass', 'odoodocmenu', 'env')
     app.add_config_value('odoodoc_fieldclass', 'odoodocfield', 'env')
+    app.add_config_value('odoodoc_fieldlistclass', 'odoodocfieldlist', 'env')
 
     app.add_directive('field', FieldDirective)
     app.add_directive('menu', MenuDirective)
+    app.add_directive('fields', OdooModelFieldList)
 
     app.add_role('faicon', icon_role)
 

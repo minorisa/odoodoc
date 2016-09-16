@@ -48,7 +48,7 @@ Optionally the ``:help:`` flag can be added. See the following example:
       :help:
 
 It will print the help text of field despite of the field name (if the field
-doesn't have help text it will print a message advertising it.
+doesn't have help text it will print a message advertising it).
 
 It also have the optional option ``:class: CLASSLIST``.
 
@@ -98,6 +98,24 @@ In this shorter syntax, options are added at the end, separated by colons. For e
 
    @field:res.partner/street:help@
    @menu:account/periodical_processing_journal_entries_validation:nameonly@
+
+
+Model Fields List
+~~~~~~~~~~~~~~~~~
+
+This directive takes an **Odoo** model as argument and generates a *Field List* for all fields having a *Help* string defined.
+In the field list, the columns **String** and **Help** are displayed.
+
+The syntax is as follows::
+
+   .. fields:: model.name
+      :fields: field1 field2
+      :class: class1
+
+If option ``:fields:`` is specified, it should be a list of fields separated by one blank.
+If this option is not specified, it will list all fields by default.
+You can style the field list table using the optional ``:class: CLASSLIST`` option,
+or assigning a CLASSLIST to the variable ``odoodoc_fieldlistclass`` in ``conf.py`` file.
 
 
 FA Icon

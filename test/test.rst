@@ -17,3 +17,13 @@ in the text: *@menu:base/menu_config_address_book:nameonly@*.
 
 And now, the same example of field with help option: *@field:res.partner/lang:help@*.
 
+This is an example of **Model Fields List**, for ``res.partner`` model, only *lang* and *tz* fields.
+
+.. fields:: res.partner
+   :fields: lang tz
+
+Now another example for all fields with help for ``account.journal``.
+
+.. fields:: account.journal
+
+
